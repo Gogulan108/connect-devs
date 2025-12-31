@@ -41,13 +41,21 @@ router.post("/login", async (req, res) => {
       return res.status(400).send("username or password is incorrect");
     }
     const jwtToken = await user.getJwt();
-    res.cookie("token", jwtToken);
+    res.cookie("token", jwtToken, {
+      expires: new Date(Date.now() + 8 * 3600000),
+      //httpOnly: true,
+    });
     res
       .status(200)
       .json({ message: "Login successful", user: user, token: jwtToken });
   } catch (error) {
     res.status(400).send("Error during login:" + error.message);
   }
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logout successful" });
 });
 
 module.exports = router;

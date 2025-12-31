@@ -48,8 +48,12 @@ const userSchema = new mongoose.Schema(
       default:
         "https://www.pngall.com/wp-content/uploads/5/User-Profile-PNG-High-Quality-Image.png",
     },
+    skills: {
+      type: [String],
+      default: [],
+    },
   },
-  { versionKey: false }
+  { versionKey: false, timestamps: true }
 );
 
 userSchema.methods.validatePassword = async function (userPassword) {
